@@ -1,0 +1,78 @@
+
+// Trend Reversal Scanner MT5
+// Developer's Site: forexroboteasy.com
+// Developer: Forex Robot Easy Team
+
+// This code implements a Trend Reversal Scanner MT5 that allows for one-click Forex analysis. 
+// It performs an All Symbols x All Time frames scan with a single click on the scanner button.
+
+// Include necessary libraries
+#include <Trade\Trade.mqh>
+#include <Series\Series.mqh>
+
+// Define the Trend Reversal Scanner class
+class TrendReversalScannerMT5
+{
+private:
+   CTrade m_trade;
+   CSeries m_series;
+   
+public:
+   // Constructor
+   TrendReversalScannerMT5()
+   {
+      m_trade = new CTrade();
+      m_series = new CSeries();
+   }
+   
+   // Perform All Symbols x All Time frames scan
+   void ScanAllSymbolsAllTimeframes()
+   {
+      // Get the list of available symbols
+      string[] symbols = SymbolsTotal();
+      
+      // Loop through each symbol
+      for (int i = 0; i < ArraySize(symbols); i++)
+      {
+         // Select the symbol
+         SymbolSelect(symbols[i], true);
+         
+         // Loop through each time frame
+         for (int j = 0; j < PeriodsTotal(); j++)
+         {
+            // Select the time frame
+            SetCurrentPeriod(j);
+            
+            // Perform Forex analysis for the selected symbol and time frame
+            AnalyzeForexData();
+         }
+      }
+   }
+   
+   // Perform Forex analysis
+   void AnalyzeForexData()
+   {
+      // Get the current symbol and time frame
+      string symbol = Symbol();
+      ENUM_TIMEFRAMES timeframe = Period();
+      
+      // Implement your Forex analysis logic here
+      // ...
+      
+      // Print the analysis results
+      Print('Symbol:', symbol, ' Timeframe:', EnumToString(timeframe));
+   }
+};
+
+// Entry point of the program
+void OnStart()
+{
+   // Create an instance of the Trend Reversal Scanner
+   TrendReversalScannerMT5 scanner = new TrendReversalScannerMT5();
+   
+   // Scan all symbols and time frames
+   scanner.ScanAllSymbolsAllTimeframes();
+   
+   // Print the completion message
+   Print('Trend Reversal Scanner MT5 analysis completed.');
+}
